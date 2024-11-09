@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Thêm thương hiệu sản phẩm";
+}
+@model IEnumerable<BrandModel>
+
+
+<h2>Thêm thương hiệu sản phẩm</h2>
+
+<form asp-action="CreateBrand" method="post">
+    <div class="form-group">
+        <label for="brandName">Brand Name</label>
+        <input type="text" class="form-control" id="brandName" name="brandName" required />
+    </div>
+    <div class="form-group">
+        <label for="brandDescription">Brand Description </label>
+        <input type="text" class="form-control" id="brandDescription" name="brandDescription" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Brand</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.Message
+    </div>
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info mt-3">
+        @TempData["Message"]
+    </div>
+}
+<br />
+
+<h2>Danh sách các thương hiệu sản phẩm </h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Brand Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var brand in Model)
+        {
+            <tr>
+                <td>@brand.Name</td>
+                <td>
+                    <form asp-action="DeleteBrand" method="post">
+                        <input type="hidden" name="brandId" value="@brand.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <a asp-action="EditBrand" asp-route-editBrandId="@brand.Id" class="btn btn-warning">Edit</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

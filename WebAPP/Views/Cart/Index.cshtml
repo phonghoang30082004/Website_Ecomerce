@@ -1,0 +1,208 @@
+﻿@using WebAPP.Models.ViewModels
+@model CartItemViewModel
+
+<h1 class="text-center animate__animated animate__fadeInDown">Giỏ Hàng</h1>
+
+<!-- External CSS for icons and animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+<section id="cart_items" class="mt-4">
+    <div class="container">
+        <div class="breadcrumbs mb-3">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">Shopping Cart</li>
+            </ol>
+        </div>
+
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Cửa hàng</td>
+                        <td class="image">Item</td>
+                        <td class="description">Name</td>
+                        <td class="price">Price</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="total">Total</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.CartItems.Count > 0)
+                    {
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr class="animate__animated animate__fadeInUp">
+                                <td class="cart_store">
+                                    <p>@item.StoreName</p> <!-- Hiển thị tên cửa hàng ở đây -->
+                                </td>
+                                <td class="cart_product">
+                                    <a href="#"><img src="~/media/products/@item.Image" alt="@item.ProductName" /></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h4><a href="#">@item.ProductName</a></h4>
+                                </td>
+                                <td class="cart_price">
+                                    <p>@item.Price.ToString("#,##0 VNĐ")</p>
+                                </td>
+                                <td class="cart_quantity">
+                                    <a class="btn btn-success btn-sm" asp-controller="Cart" asp-action="Increase" asp-route-Id="@item.ProductID">+</a>
+                                    <input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity" autocomplete="off" size="2">
+                                    <a class="btn btn-success btn-sm" asp-controller="Cart" asp-action="Decrease" asp-route-Id="@item.ProductID">-</a>
+                                    <a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="Remove" asp-route-Id="@item.ProductID">Remove</a>
+                                </td>
+                                <td class="cart_total">
+                                    <p class="cart_total_price">@((item.Quantity * item.Price).ToString("#,##0 VNĐ"))</p>
+                                </td>
+                                <td class="cart_delete">
+                                    <a class="cart_quantity_delete" asp-controller="Cart" asp-action="Remove" asp-route-Id="@item.ProductID">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div class="button-group mt-3">
+                                    <a class="btn btn-warning btn-lg" asp-controller="CheckOutOrder" asp-action="Index">Đặt hàng</a>
+                                    <a class="btn btn-danger btn-lg" asp-controller="Cart" asp-action="Clear" >Clear Cart</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <h4 class="animate__animated animate__fadeIn">Your cart is empty</h4>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Custom CSS for better aesthetics -->
+<style>
+    .text-center {
+        text-align: center;
+    }
+
+    .mt-4 {
+        margin-top: 1.5rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .cart_info .table {
+        width: 100%;
+        margin-bottom: 0;
+        border-collapse: collapse;
+    }
+
+    .cart_menu {
+        background: #ff9900;
+        font-weight: bold;
+        color: white;
+    }
+
+        .cart_menu td {
+            padding: 12px;
+            text-align: center;
+        }
+
+    .cart_product img {
+        width: 80px;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .cart_description h4 a {
+        color: #333;
+        text-decoration: none;
+    }
+
+        .cart_description h4 a:hover {
+            color: #ff9900;
+            text-decoration: underline;
+        }
+
+    .cart_price, .cart_total {
+        line-height: 2.5;
+        text-align: center;
+    }
+
+    .cart_quantity {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cart_quantity_input {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 0 10px;
+    }
+
+    .cart_quantity_delete {
+        color: #ff0000;
+        cursor: pointer;
+    }
+
+    .btn {
+        border-radius: 5px;
+        padding: 8px 16px;
+        font-size: 16px;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .btn-warning {
+        background-color: #f0ad4e;
+        color: white;
+    }
+
+        .btn-warning:hover {
+            background-color: #ec971f;
+            transform: scale(1.05);
+        }
+
+    .btn-danger {
+        background-color: #d9534f;
+        color: white;
+    }
+
+        .btn-danger:hover {
+            background-color: #c9302c;
+            transform: scale(1.05);
+        }
+
+    .btn-success {
+        background-color: #5cb85c;
+        color: white;
+    }
+
+        .btn-success:hover {
+            background-color: #4cae4c;
+            transform: scale(1.05);
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .table-responsive {
+        margin-top: 20px;
+    }
+</style>

@@ -1,0 +1,27 @@
+﻿@model CategoryModel
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<h2>Edit Category</h2>
+
+<form asp-action="EditCategory" method="post">
+    <input type="hidden" name="editCategoryId" value="@Model.Id" />
+    <div class="form-group">
+        <label for="categoryName">Chỉnh sửa danh mục</label>
+        <input type="text" class="form-control" id="editCategoryName" name="editCategoryName" value="@Model.Name" required />
+        <label for="categoryDescription">Chỉnh sửa mô tả danh mục</label>
+        <input type="text" class="form-control" id="editCategoryDescription" name="editCategoryDescription" value="@Model.Description" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<a href="@Url.Action("CreateCategory")" class="btn btn-secondary mt-3">Back to Category List</a>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.Message
+    </div>
+}

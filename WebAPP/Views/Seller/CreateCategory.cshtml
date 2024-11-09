@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Thêm danh mục sản phẩm";
+}
+@model IEnumerable<CategoryModel>
+
+
+<h2>Thêm danh mục sản phẩm</h2>
+
+<form asp-action="CreateCategory" method="post">
+    <div class="form-group">
+        <label for="categoryName">Category Name</label>
+        <input type="text" class="form-control" id="categoryName" name="categoryName" required />
+    </div>
+    <div class="form-group">
+        <label for="categoryDescription">Category Description </label>
+        <input type="text" class="form-control" id="categoryDescription" name="categoryDescription" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Category</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.Message
+    </div>
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info mt-3">
+        @TempData["Message"]
+    </div>
+}
+<br />
+
+<h2>Danh sách các danh mục sản phẩm </h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead> 
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>
+                    <form asp-action="DeleteCategory" method="post">
+                        <input type="hidden" name="categoryId" value="@category.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <a asp-action="EditCategory" asp-route-editCategoryId="@category.Id" class="btn btn-warning">Edit</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

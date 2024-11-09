@@ -1,0 +1,30 @@
+﻿@model WebAPP.Models.ViewModels.ProductListViewModel
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h2>Sản phẩm gợi ý</h2>
+    @if (Model.RecommendedProducts.Any())
+    {
+        <ul>
+            @foreach (var product in Model.RecommendedProducts)
+            {
+                <li>
+                    <img src="@product.Image" alt="@product.Name" style="width:100px;height:100px;" />
+                    <h3>@product.Name</h3>
+                    <p>Giá: @product.Price.ToString("C")</p>
+                    <p>Mô tả: @product.Description</p>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Hiện tại không có sản phẩm gợi ý nào.</p>
+    }
+</div>
+

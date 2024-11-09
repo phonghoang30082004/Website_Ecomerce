@@ -1,0 +1,27 @@
+﻿@model BrandModel
+
+@{
+    ViewData["Title"] = "Edit Brand";
+}
+
+<h2>Edit Brand</h2>
+
+<form asp-action="EditBrand" method="post">
+    <input type="hidden" name="editBrandId" value="@Model.Id" />
+    <div class="form-group">
+        <label for="brandName">Chỉnh sửa thương hiệu</label>
+        <input type="text" class="form-control" id="editBrandName" name="editBrandName" value="@Model.Name" required />
+        <label for="brandDescription">Chỉnh sửa mô tả thương hiệu</label>
+        <input type="text" class="form-control" id="editBrandDescription" name="editBrandDescription" value="@Model.Description" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<a href="@Url.Action("CreateBrand")" class="btn btn-secondary mt-3">Back to Brand List</a>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-info mt-3">
+        @ViewBag.Message
+    </div>
+}

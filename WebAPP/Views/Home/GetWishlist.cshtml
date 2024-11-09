@@ -1,0 +1,33 @@
+﻿@model List<WishlistModel>
+
+<h2>Sản phẩm yêu thích</h2>
+
+@if (Model.Count == 0)
+{
+    <p>Bạn chưa thêm sản phẩm nào vào danh sách yêu thích.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên Sản Phẩm</th>
+                <th>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price.ToString("C")</td>
+                    <td>
+                        <form asp-action="RemoveFromWishlist" asp-controller="Home" asp-route-productID="@item.ProductId" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

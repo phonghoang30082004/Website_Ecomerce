@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get User Info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h2>Get Firebase User Information</h2>
+
+        <form id="getUserInfoForm">
+            <div class="form-group">
+                <label for="firebaseToken">Firebase ID Token</label>
+                <input type="text" class="form-control" id="firebaseToken" placeholder="Enter Firebase Token" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Get User Info</button>
+        </form>
+
+        <hr>
+
+        <h4>User Information</h4>
+        <div id="userInfo" class="mt-3" style="display:none;">
+            <p><strong>UID:</strong> <span id="userUID"></span></p>
+        </div>
+
+        <div id="errorMessage" class="alert alert-danger mt-3" style="display:none;">
+            <strong>Error:</strong> <span id="errorText"></span>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#getUserInfoForm').submit(function (event) {
+                event.preventDefault();
+
+                var token = $('#firebaseToken').val();
+
+                $.ajax({
+                    url: '/Firebase/GetUserInfo',  // URL của action GetUserInfo trong controller Firebase
+                    type: 'GET',
+                    data: { token: token },
+                    success: function (response) {
+                        // Hiển thị thông tin người dùng
+                        $('#userUID').text(response.uid);
+                        $('#userInfo').show();
+                        $('#errorMessage').hide();
+                    },
+                    error: function (xhr, status, error) {
+                        // Hiển thị lỗi nếu có
+                        $('#errorText').text(xhr.responseText);
+                        $('#errorMessage').show();
+                        $('#userInfo').hide();
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
